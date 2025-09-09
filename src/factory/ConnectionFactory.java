@@ -8,7 +8,7 @@ public class ConnectionFactory {
 
     private static final String URL = "jdbc:mysql://localhost:3306/escola_db?useTimezone=true&serverTimezone=UTC";
     private static final String USER = "root"; // Seu usuário do MySQL
-    private static final String PASSWORD = "Jotap@0310"; // Sua senha do MySQL
+    private static final String PASSWORD = "root"; // Sua senha do MySQL
 
     public static Connection createConnectionToMySQL() {
         try {
