@@ -36,19 +36,24 @@ CREATE DATABASE IF NOT EXISTS escola_db;
 USE escola_db;
 
 -- Cria a tabela de alunos
+```
 CREATE TABLE IF NOT EXISTS alunos (
 id INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(255) NOT NULL,
 idade INT,
 matricula VARCHAR(50) NOT NULL UNIQUE
 );
+```
 
 -- Cria a tabela de professores
+```
 CREATE TABLE IF NOT EXISTS professores (
 id INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(255) NOT NULL,
 materia VARCHAR(100) NOT NULL
 );
+```
+
 ### 2. Instalação da Biblioteca (MySQL Connector/J)
    Este projeto precisa de uma biblioteca externa (um arquivo .jar) para que o Java possa se comunicar com o MySQL.
 
