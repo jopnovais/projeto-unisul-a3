@@ -30,7 +30,9 @@ Abra seu cliente MySQL (MySQL Workbench, DBeaver, etc.) e execute o seguinte scr
 SQL
 
 -- Cria o banco de dados se ele ainda não existir
+```
 CREATE DATABASE IF NOT EXISTS escola_db;
+```
 
 -- Seleciona o banco de dados para usar
 USE escola_db;
