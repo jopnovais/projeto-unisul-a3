@@ -35,7 +35,9 @@ CREATE DATABASE IF NOT EXISTS escola_db;
 ```
 
 -- Seleciona o banco de dados para usar
+```
 USE escola_db;
+```
 
 -- Cria a tabela de alunos
 ```
