@@ -1,9 +1,9 @@
-package br.com.projetoescola.view;
+package view;
 
-import br.com.projetoescola.DAO.AlunoDAO;
-import br.com.projetoescola.DAO.ProfessorDAO;
-import br.com.projetoescola.model.Aluno;
-import br.com.projetoescola.model.Professor;
+import DAO.AlunoDAO;
+import DAO.ProfessorDAO;
+import model.Aluno;
+import model.Professor;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

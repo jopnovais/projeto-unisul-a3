@@ -1,4 +1,4 @@
-package br.com.projetoescola.factory;
+package factory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

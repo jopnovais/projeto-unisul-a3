@@ -1,4 +1,4 @@
-package br.com.projetoescola.model;
+package model;
 
 public class Professor {
     private int id;

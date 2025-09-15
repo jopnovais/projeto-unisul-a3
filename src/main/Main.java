@@ -1,6 +1,6 @@
-package br.com.projetoescola.main;
+package main;
 
-import br.com.projetoescola.view.TelaCadastro;
+import view.TelaCadastro;
 import javax.swing.SwingUtilities;
 
 public class Main {

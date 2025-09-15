@@ -1,7 +1,7 @@
-package br.com.projetoescola.DAO;
+package DAO;
 
-import br.com.projetoescola.factory.ConnectionFactory;
-import br.com.projetoescola.model.Professor;
+import factory.ConnectionFactory;
+import model.Professor;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
