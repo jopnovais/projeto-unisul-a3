@@ -45,7 +45,6 @@ public class TelaCadastro extends JFrame {
 
         add(abas);
 
-        // Carrega os dados iniciais de ambas as tabelas
         atualizarTabelaAlunos();
         atualizarTabelaProfessores();
     }
@@ -82,7 +81,17 @@ public class TelaCadastro extends JFrame {
         scrollPane.setBorder(BorderFactory.createTitledBorder("Alunos Cadastrados"));
 
         painel.add(scrollPane, BorderLayout.CENTER);
+
+        JPanel painelAcoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton btnEditarAluno = new JButton("Editar Selecionado");
+        JButton btnExcluirAluno = new JButton("Excluir Selecionado");
+        painelAcoes.add(btnEditarAluno);
+        painelAcoes.add(btnExcluirAluno);
+        painel.add(painelAcoes, BorderLayout.SOUTH);
+
         btnSalvarAluno.addActionListener(e -> salvarAluno());
+        btnEditarAluno.addActionListener(e -> editarAluno());
+        btnExcluirAluno.addActionListener(e -> excluirAluno());
         return painel;
     }
 
@@ -114,7 +123,17 @@ public class TelaCadastro extends JFrame {
         scrollPane.setBorder(BorderFactory.createTitledBorder("Professores Cadastrados"));
 
         painel.add(scrollPane, BorderLayout.CENTER);
+
+        JPanel painelAcoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton btnEditarProfessor = new JButton("Editar Selecionado");
+        JButton btnExcluirProfessor = new JButton("Excluir Selecionado");
+        painelAcoes.add(btnEditarProfessor);
+        painelAcoes.add(btnExcluirProfessor);
+        painel.add(painelAcoes, BorderLayout.SOUTH);
+
         btnSalvarProfessor.addActionListener(e -> salvarProfessor());
+        btnEditarProfessor.addActionListener(e -> editarProfessor());
+        btnExcluirProfessor.addActionListener(e -> excluirProfessor());
         return painel;
     }
 
@@ -160,6 +179,91 @@ public class TelaCadastro extends JFrame {
         JOptionPane.showMessageDialog(this, "Professor salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         limparCamposProfessor();
         atualizarTabelaProfessores();
+    }
+
+    private void editarAluno() {
+        int selectedRow = tabelaAlunos.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um aluno na tabela.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int id = (int) modeloTabelaAlunos.getValueAt(selectedRow, 0);
+        String nomeAtual = (String) modeloTabelaAlunos.getValueAt(selectedRow, 1);
+        int idadeAtual = (int) modeloTabelaAlunos.getValueAt(selectedRow, 2);
+        String matriculaAtual = (String) modeloTabelaAlunos.getValueAt(selectedRow, 3);
+
+        String nome = JOptionPane.showInputDialog(this, "Nome:", nomeAtual);
+        if (nome == null) return;
+        String idadeStr = JOptionPane.showInputDialog(this, "Idade:", String.valueOf(idadeAtual));
+        if (idadeStr == null) return;
+        String matricula = JOptionPane.showInputDialog(this, "Matrícula:", matriculaAtual);
+        if (matricula == null) return;
+
+        try {
+            int idade = Integer.parseInt(idadeStr);
+            Aluno aluno = new Aluno();
+            aluno.setId(id);
+            aluno.setNome(nome);
+            aluno.setIdade(idade);
+            aluno.setMatricula(matricula);
+            alunoDAO.update(aluno);
+            atualizarTabelaAlunos();
+            JOptionPane.showMessageDialog(this, "Aluno atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "A idade deve ser um número válido!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void excluirAluno() {
+        int selectedRow = tabelaAlunos.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um aluno na tabela.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int confirm = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o aluno selecionado?", "Confirmar Exclusão", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) return;
+        int id = (int) modeloTabelaAlunos.getValueAt(selectedRow, 0);
+        alunoDAO.deleteById(id);
+        atualizarTabelaAlunos();
+        JOptionPane.showMessageDialog(this, "Aluno excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void editarProfessor() {
+        int selectedRow = tabelaProfessores.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um professor na tabela.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int id = (int) modeloTabelaProfessores.getValueAt(selectedRow, 0);
+        String nomeAtual = (String) modeloTabelaProfessores.getValueAt(selectedRow, 1);
+        String materiaAtual = (String) modeloTabelaProfessores.getValueAt(selectedRow, 2);
+
+        String nome = JOptionPane.showInputDialog(this, "Nome:", nomeAtual);
+        if (nome == null) return;
+        String materia = JOptionPane.showInputDialog(this, "Matéria:", materiaAtual);
+        if (materia == null) return;
+
+        Professor professor = new Professor();
+        professor.setId(id);
+        professor.setNome(nome);
+        professor.setMateria(materia);
+        professorDAO.update(professor);
+        atualizarTabelaProfessores();
+        JOptionPane.showMessageDialog(this, "Professor atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void excluirProfessor() {
+        int selectedRow = tabelaProfessores.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um professor na tabela.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int confirm = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o professor selecionado?", "Confirmar Exclusão", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) return;
+        int id = (int) modeloTabelaProfessores.getValueAt(selectedRow, 0);
+        professorDAO.deleteById(id);
+        atualizarTabelaProfessores();
+        JOptionPane.showMessageDialog(this, "Professor excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void atualizarTabelaAlunos() {

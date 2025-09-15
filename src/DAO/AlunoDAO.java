@@ -1,6 +1,6 @@
 package DAO;
 
-import ConnectionFactory;
+import factory.ConnectionFactory;
 import model.Aluno;
 
 import java.sql.Connection;
@@ -20,6 +20,31 @@ public class AlunoDAO {
             pstm.setInt(2, aluno.getIdade());
             pstm.setString(3, aluno.getMatricula());
             pstm.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update(Aluno aluno) {
+        String sql = "UPDATE alunos SET nome = ?, idade = ?, matricula = ? WHERE id = ?";
+        try (Connection conn = ConnectionFactory.createConnectionToMySQL();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setString(1, aluno.getNome());
+            pstm.setInt(2, aluno.getIdade());
+            pstm.setString(3, aluno.getMatricula());
+            pstm.setInt(4, aluno.getId());
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteById(int id) {
+        String sql = "DELETE FROM alunos WHERE id = ?";
+        try (Connection conn = ConnectionFactory.createConnectionToMySQL();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setInt(1, id);
+            pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

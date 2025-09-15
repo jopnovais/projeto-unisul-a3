@@ -24,6 +24,30 @@ public class ProfessorDAO {
         }
     }
 
+    public void update(Professor professor) {
+        String sql = "UPDATE professores SET nome = ?, materia = ? WHERE id = ?";
+        try (Connection conn = ConnectionFactory.createConnectionToMySQL();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setString(1, professor.getNome());
+            pstm.setString(2, professor.getMateria());
+            pstm.setInt(3, professor.getId());
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteById(int id) {
+        String sql = "DELETE FROM professores WHERE id = ?";
+        try (Connection conn = ConnectionFactory.createConnectionToMySQL();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setInt(1, id);
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<Professor> getProfessores() {
         String sql = "SELECT * FROM professores";
         List<Professor> professores = new ArrayList<>();
